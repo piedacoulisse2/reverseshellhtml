@@ -2,24 +2,55 @@ package main
 
 import (
 	"fmt"
-	"github.com/anaskhan96/soup"
-	"os"
+	"os/exec"
 )
 
 func main() {
-	resp, err := soup.Get("https://portfolio.florentriou.me/Commandes-d90773cb8ae54515a6d3de300a88481e")
+
+	/*	resp, err := soup.Get("https://raw.githubusercontent.com/piedacoulisse2/reverseshellhtml/master/commandes")
+		if err != nil {
+			os.Exit(1)
+		}
+		doc := soup.HTMLParse(resp)
+
+		data := doc.Find("body")
+
+		fmt.Println(data.Text())*/
+
+	// PIPE
+	/*	cmd := exec.Command("cat")
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		go func() {
+			defer stdin.Close()
+			io.WriteString(stdin, "an old fal")
+		}()
+
+		out, err := cmd.CombinedOutput()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%s\n", out)*/
+
+	// Basic commande fonctionne avec WSL2
+	/*	cmd := exec.Command("ls", "-lah")
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			log.Fatalf("cmd.Run() failed with %s\n", err)
+
+		}
+		fmt.Printf("combined out \n%s\n", string(out))
+	*/
+	// Basic commande
+	out, err := exec.Command("cmd", "/C", "dir").Output()
+	//out, err := cmd.CombinedOutput()
 	if err != nil {
-		os.Exit(1)
+		fmt.Println("Error: ", err)
 	}
-	doc := soup.HTMLParse(resp)
+	fmt.Println(string(out))
 
-	//data := doc.Find("div", "spellcheck", "false")
-
-	//fmt.Println(data.Text())
-	fmt.Println(doc.HTML())
-
-	/*	links := doc.Find("pre", "id", "prettyprint").FindAll("a")
-		for _, link := range links {
-			fmt.Println(link.Text(), "| Link :", link.Attrs()["href"])
-		}*/
 }
